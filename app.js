@@ -20,19 +20,36 @@ const url = "mongodb://127.0.0.1:27017"
 const client = new MongoClient(url);
 const dbName = "demoDB";
 
-async function showDb (){
+async function showDb() {
     const conn = await client.connect()
     // console.log(conn);
     const db = await client.db(dbName);
     const collection = await db.collection('user');
     const findResult = await collection.find({}).toArray();
-    console.log(findResult);
+    return findResult;
 
 }
 
-showDb()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => client.close());
+async function insertIntoDB() {
+    const conn = await client.connect()
+    // console.log(conn);
+    const db = await client.db(dbName);
+    const collection = await db.collection('user');
+    const insertResult = await collection.insertOne({ "name": "Om", "phone": "7699570244" });
+    return insertResult;
+
+}
+
+// Read operation
+// showDb()
+//     .then(console.log)
+//     .catch(console.error)
+//     .finally(() => client.close());
 
 // console.log(typeof(client));
+
+// Create operation
+insertIntoDB()
+    .then(console.log)
+    .catch(console.error)
+    .finally(() => client.close());
